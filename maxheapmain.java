@@ -49,25 +49,28 @@ public class maxheapmain {
         int leftNodeIndex = (parentNodeIndex * 2) + 1;
         int rightNodeIndex = (parentNodeIndex * 2) + 2;
 
-        //we assume the biggest value is already parentNode
+        //we assume the biggest value is initially parentNode
         int largestValueIndex = parentNodeIndex; 
 
         //we need to figure out the largest value and set it as the parent node
-        if(nodesList[leftNodeIndex].frequency > nodesList[parentNodeIndex].frequency 
-            && nodesList[leftNodeIndex].frequency > nodesList[largestValueIndex].frequency) {
+        if(leftNodeIndex < nodeListLength && nodesList[leftNodeIndex].frequency > nodesList[largestValueIndex].frequency) {
             largestValueIndex = leftNodeIndex;
         }
-        else if (nodesList[rightNodeIndex].frequency > nodesList[parentNodeIndex].frequency
-            && nodesList[rightNodeIndex].frequency > nodesList[largestValueIndex].frequency) {
+        if (rightNodeIndex < nodeListLength && nodesList[rightNodeIndex].frequency > nodesList[largestValueIndex].frequency) {
             largestValueIndex = rightNodeIndex;
         }
 
         //set the parentNode as the largest value
-        WordFreq tempNode = nodesList[largestValueIndex];
-        nodesList[parentNodeIndex] = nodesList[largestValueIndex];
-        nodesList[largestValueIndex] = tempNode;
+        if (parentNodeIndex != largestValueIndex) {
 
-        heapify(nodesList, nodeListLength, parentNodeIndex);
+            WordFreq tempNode = nodesList[parentNodeIndex];
+            nodesList[parentNodeIndex] = nodesList[largestValueIndex];
+            nodesList[largestValueIndex] = tempNode;
+
+            heapify(nodesList, nodeListLength, largestValueIndex);
+
+        }
+
     }//end heapify
 
 }
