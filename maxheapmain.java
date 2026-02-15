@@ -14,39 +14,60 @@ public class maxheapmain {
                             new WordFreq("would recommend to friends", 800),
                             new WordFreq("visit the store", 700)};
         buildMaxHeap(array);
-        System.out.println(array.length);
-        System.out.println(11/2);
-    }
+
+        for(int i = 0; i < array.length; i++) {
+            System.out.println(array[i].frequency);
+        }
+
+    }//end main
+
 
     /**
      * Method that creates a max heap using the input array of WordFreq objects.
      * The method uses heapify to sort the array.
      */
     static void buildMaxHeap(WordFreq nodesList[]) {
-        /**
-         * we need the last node that has a leaf, so we divide the length by 2 
-         * then subtract 1. ex: 10 nodes / 2 = 5, 5 - 1 = 4, so 4 is the index
-         * for the last node with a leaf
-         */
-        int lastNodeIndex = (nodesList.length / 2) - 1;
+        //we need the last node that has a leaf, so we divide the length by 2 
+        //then subtract 1. ex: 10 nodes / 2 = 5, 5 - 1 = 4, so 4 is the index
+        //for the last node with a leaf
+        int parentNodeIndex = (nodesList.length / 2) - 1;
         
-        /** 
-         * we then decrement to each node, and perform heapify for the parents
-         * and their children.
-         */
-        for(int i = lastNodeIndex; i >= 0; i--) {
-            heapify(nodesList, nodesList.length, i);
+        //we then decrement to each node, and perform heapify for parents nodes
+        //and left + right nodes.
+        for(int parentNodeI = parentNodeIndex; parentNodeI >= 0; parentNodeI--) {
+            heapify(nodesList, nodesList.length, parentNodeI);
         }
+
     }//end buildMaxHeap
+
 
     /**
      * This method takes in the nodesList array, the length of the array, and the
      * current node we are using as a parent.
      */
-    static void heapify(WordFreq nodesList[], int n, int i) {
-        int l = i;
-        int r = i;
-        
+    static void heapify(WordFreq nodesList[], int nodeListLength, int parentNodeIndex) {
+        int leftNodeIndex = (parentNodeIndex * 2) + 1;
+        int rightNodeIndex = (parentNodeIndex * 2) + 2;
+
+        //we assume the biggest value is already parentNode
+        int largestValueIndex = parentNodeIndex; 
+
+        //we need to figure out the largest value and set it as the parent node
+        if(nodesList[leftNodeIndex].frequency > nodesList[parentNodeIndex].frequency 
+            && nodesList[leftNodeIndex].frequency > nodesList[largestValueIndex].frequency) {
+            largestValueIndex = leftNodeIndex;
+        }
+        else if (nodesList[rightNodeIndex].frequency > nodesList[parentNodeIndex].frequency
+            && nodesList[rightNodeIndex].frequency > nodesList[largestValueIndex].frequency) {
+            largestValueIndex = rightNodeIndex;
+        }
+
+        //set the parentNode as the largest value
+        WordFreq tempNode = nodesList[largestValueIndex];
+        nodesList[parentNodeIndex] = nodesList[largestValueIndex];
+        nodesList[largestValueIndex] = tempNode;
+
+        heapify(nodesList, nodeListLength, parentNodeIndex);
     }//end heapify
 
 }
