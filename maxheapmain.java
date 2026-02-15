@@ -16,7 +16,7 @@ public class maxheapmain {
         buildMaxHeap(array);
 
         for(int i = 0; i < array.length; i++) {
-            System.out.println(array[i].frequency);
+            System.out.println("Node " + (i + 1) + ": " + array[i].word + " " + array[i].frequency);
         }
 
     }//end main
@@ -60,7 +60,8 @@ public class maxheapmain {
             largestValueIndex = rightNodeIndex;
         }
 
-        //set the parentNode as the largest value
+        //if parentNode is the largest value, dont recurse and in buildMaxHeap,
+        //we move onto the next node
         if (parentNodeIndex != largestValueIndex) {
 
             WordFreq tempNode = nodesList[parentNodeIndex];
